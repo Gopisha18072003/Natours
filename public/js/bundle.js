@@ -5475,7 +5475,7 @@ var login = exports.login = /*#__PURE__*/function () {
           _context.next = 3;
           return (0, _axios.default)({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/v1/users/login',
+            url: '/api/v1/users/login',
             data: {
               email: email,
               password: password
@@ -5515,7 +5515,7 @@ var logout = exports.logout = /*#__PURE__*/function () {
           _context2.next = 3;
           return (0, _axios.default)({
             method: 'GET',
-            url: 'http://127.0.0.1:8000/api/v1/users/logout'
+            url: '/api/v1/users/logout'
           });
         case 3:
           res = _context2.sent;
@@ -5562,7 +5562,7 @@ var signup = exports.signup = /*#__PURE__*/function () {
           _context.next = 3;
           return (0, _axios.default)({
             method: 'POST',
-            url: 'http://127.0.0.1:8000/api/v1/users/sign-up',
+            url: '/api/v1/users/sign-up',
             data: {
               name: name,
               email: email,
@@ -5616,7 +5616,7 @@ var updateSettings = exports.updateSettings = /*#__PURE__*/function () {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          url = type === 'password' ? 'http://127.0.0.1:8000/api/v1/users/update-password' : 'http://127.0.0.1:8000/api/v1/users/updateMe';
+          url = type === 'password' ? '/api/v1/users/update-password' : '/api/v1/users/updateMe';
           _context.next = 4;
           return (0, _axios.default)({
             method: 'PATCH',
@@ -5708,7 +5708,7 @@ var bookTour = exports.bookTour = /*#__PURE__*/function () {
           return (0, _axios.default)("/api/v1/bookings/checkout-session/".concat(tourId));
         case 3:
           session = _context.sent;
-          console.log(session);
+          // console.log(session);
 
           //await stripe.redirectToCheckout({
           //  sessionId: session.data.session.id,
@@ -5716,18 +5716,18 @@ var bookTour = exports.bookTour = /*#__PURE__*/function () {
 
           //works as expected
           window.location.replace(session.data.session.url);
-          _context.next = 12;
+          _context.next = 11;
           break;
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
           console.log(_context.t0);
           (0, _alerts.showAlert)('error', _context.t0);
-        case 12:
+        case 11:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
   return function bookTour(_x) {
     return _ref.apply(this, arguments);
@@ -5771,7 +5771,7 @@ if (loginForm) {
 }
 if (signinForm) {
   document.getElementById('signup').addEventListener('submit', function (e) {
-    console.log('Hello');
+    // console.log('Hello');
     e.preventDefault();
     var name = document.getElementById('name').value;
     var email = document.getElementById('email').value;
@@ -5871,7 +5871,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50089" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50508" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

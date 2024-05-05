@@ -11,6 +11,8 @@ const rateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 // third party middleware
 const morgan = require('morgan');
+// It will compress all the responses
+const compression = require('compression');
 
 
 
@@ -82,6 +84,7 @@ app.use(
 );
 
 
+app.use(compression());
 
 // development logging
 if (process.env.NODE_ENV === 'development') {
@@ -140,7 +143,7 @@ app.use(express.static(`${__dirname}/public`));
 
 // creating my own middleware function
 app.use((req, res, next) => {
-  console.log('Hello from middleware 👋');
+  // console.log('Hello from middleware 👋');
   next(); // very imp
 });
 app.use((req, res, next) => {

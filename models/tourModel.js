@@ -136,7 +136,7 @@ tourSchema.pre('save', function (next) {
 });
 tourSchema.pre('save', function (next) {
     // console.log(this);
-    console.log('One hook can have multiple pre or post middleware')
+    // console.log('One hook can have multiple pre or post middleware')
     next();
 });
 
@@ -159,7 +159,7 @@ tourSchema.pre(/^find/, function(next) {
 // does not have access to this keyword
 tourSchema.post('save', function (doc, next) {
     // console.log(this);
-    console.log(doc);
+    // console.log(doc);
     next();
 });
 
