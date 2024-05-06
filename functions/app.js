@@ -1,9 +1,10 @@
 const express = require('express');
+const serverless = require('serverless-http');
 const path = require('path');
 // helmet is used for security reasons
 const helmet = require('helmet');
-const AppError = require('./utils/appError');
-const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('../utils/appError');
+const globalErrorHandler = require('../controllers/errorController');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
@@ -16,11 +17,11 @@ const compression = require('compression');
 
 
 
-const tourRouter = require('./routes/tourRoutes');
-const userRouter = require('./routes/userRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
-const bookingRouter = require('./routes/bookingRoutes');
-const viewRouter = require('./routes/viewRoutes');
+const tourRouter = require('../routes/tourRoutes');
+const userRouter = require('../routes/userRoutes');
+const reviewRouter = require('../routes/reviewRoutes');
+const bookingRouter = require('../routes/bookingRoutes');
+const viewRouter = require('../routes/viewRoutes');
 
 
 const app = express();
@@ -100,7 +101,7 @@ const limitter = rateLimit({
   message: 'Too many requests this IP, please try again later!',
 });
 // this will used for every route which starts from /api
-app.use('/api', limitter);
+app.use('/.netlify/functions/api', limitter);
 
 // body parser, reading data from body into req.body
 // request body can contain only 10kb of data
@@ -179,11 +180,11 @@ cycle. */
 // mounting the router
 
 
-app.use('/', viewRouter);
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/users', userRouter);
-app.use('/api/v1/reviews', reviewRouter);
-app.use('/api/v1/bookings', bookingRouter);
+app.use('/.netlify/functions/', viewRouter);
+app.use('/.netlify/functions/api/v1/tours', tourRouter);
+app.use('/.netlify/functions/api/v1/users', userRouter);
+app.use('/.netlify/functions/api/v1/reviews', reviewRouter);
+app.use('/.netlify/functions/api/v1/bookings', bookingRouter);
 
 
 
@@ -203,4 +204,4 @@ app.all('*', (req, res, next) => {
 
 // Global error handling middleware in errorController.js
 app.use(globalErrorHandler);
-module.exports = app;
+module.exports.handler = serverless(app);
