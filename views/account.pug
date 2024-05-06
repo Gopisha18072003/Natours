@@ -23,7 +23,7 @@ block content
                         ul.side-nav
                             +navItem('#', 'Manage tours', 'map', false)
                             +navItem('#', 'Manage users', 'users', false)
-                            +navItem('#', 'Manage reviews', 'start', false)
+                            +navItem('#', 'Manage reviews', 'star', false)
                             +navItem('#', 'Manage bookings', 'briefcase', false)
 
             .user-view__content
@@ -39,7 +39,7 @@ block content
                         .form__group.form__photo-upload
                             img.form__user-photo(src=`/img/users/${user.photo}`, alt="User's photo")
                             input.form__upload(type="file",accept='image/*' id="photo", name='photo')
-                            lable(for='photo') Choose new Photo
+                            label(for='photo') Choose new Photo
                         .form__group.right
                             button.btn.btn--small.btn--green Save settings
 

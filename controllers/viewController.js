@@ -4,6 +4,15 @@ const Tours = require('./../models/tourModel');
 const Bookings = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
 
+exports.alert = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking')
+    res.locals.alert =
+      "Your booking was successful! Please check your email for confirmation.If your booking doesn't show up immediately, please come back later.";
+  next();
+};
+
+
 exports.getOverview = catchAsync(async (req, res) => {
   // Get tour data from collection
   const tours = await Tours.find();
@@ -57,32 +66,35 @@ exports.getUserAccount = (req, res) => {
     });
 };
 
-exports.updateUserData =catchAsync(async (req, res, next) => {
-  const updatedUser = await Users.findByIdAndUpdate(req.user.id, {
-    name: req.body.name,
-    email: req.body.email
-  },
-{
-  new: true,
-  runValidators: true
-})
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await Users.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   res.status(200).render('account', {
     title: 'Your account',
-    user: updatedUser
+    user: updatedUser,
   });
 });
 
-exports.getMyTours = catchAsync( async(req, res, next) =>{
+exports.getMyTours = catchAsync(async (req, res, next) => {
   // 1) Find all bookings
-  const bookings = await Bookings.find({user: req.user.id});
+  const bookings = await Bookings.find({ user: req.user.id });
 
   // 2) Find tours with the returned IDs
-  const tourIds = bookings.map(el => el.tour);
-  const tours = await Tours.find({_id: {$in: tourIds}});
+  const tourIds = bookings.map((el) => el.tour);
+  const tours = await Tours.find({ _id: { $in: tourIds } });
 
   res.status(200).render('overview', {
     title: 'My tours',
-    tours
-  })
+    tours,
+  });
 });

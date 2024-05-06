@@ -14,6 +14,9 @@ const morgan = require('morgan');
 // It will compress all the responses
 const compression = require('compression');
 
+// CORS = Cross Origin Resource Sharing
+const cors = require('cors');
+
 
 
 const tourRouter = require('./routes/tourRoutes');
@@ -21,6 +24,8 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+
+const bookingController = require('./controllers/bookingController');
 
 
 const app = express();
@@ -31,6 +36,15 @@ app.set('views',path.join(__dirname, 'views'));
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 // 1. GLOBAL MIDDLEWARES
+
+// Implementing CORS
+app.use(cors());
+
+app.options('*', cors());
+
+// stripe webhook
+
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
 
 // Set Security HTTP header
 app.use(
