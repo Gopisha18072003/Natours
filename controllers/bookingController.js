@@ -1,4 +1,4 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripe = require('stripe')('sk_test_51PCc9nSBggYrNv4RapRsdXh7AsGTn0ffFh4V8DNe4XhnvTIZZLcyiRkyCNEFSAloYlEg1D1rSdINo6F3OdCl3Jmx00UJ0cuXPp');
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -69,7 +69,7 @@ exports.webhookCheckout = (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
-    return res.status(400).send(`Webhook error: ${err.message}`);
+    return res.status(400).send(`Webhook error: ${err}`);
   }
 
   if(event.type === 'checkout.session.completed')

@@ -29,6 +29,7 @@ const bookingController = require('./controllers/bookingController');
 
 
 const app = express();
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
 
 app.set('view engine', 'pug');
 app.set('views',path.join(__dirname, 'views'));
@@ -44,7 +45,7 @@ app.options('*', cors());
 
 // stripe webhook
 
-app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
+
 
 // Set Security HTTP header
 app.use(
