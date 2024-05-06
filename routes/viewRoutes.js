@@ -23,5 +23,5 @@ router.post(
   viewContolller.updateUserData,
 );
 
-router.get('/my-tours', viewContolller.getMyTour);
+router.get('/my-tours', viewContolller.getMyTours);
 module.exports = router;
