@@ -115,7 +115,6 @@ const limitter = rateLimit({
   message: 'Too many requests this IP, please try again later!',
 });
 
-app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
 
 // this will used for every route which starts /api', limitter);
 

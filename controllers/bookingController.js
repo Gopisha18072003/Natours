@@ -13,8 +13,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    // success_url: `${req.protocol}://${req.get('host')}/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
-    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
+    success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
@@ -34,7 +33,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
       },
     ],
   });
-  console.log(session, req.headers);
   // 3) Create session as response
   res.status(200).json({
     status: 'successs',
@@ -42,42 +40,16 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.createBookingCheckout = catchAsync( async (req, res, next) => {
-//    This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
-//   const {tour, user, price} = req.query;
-//   if(!tour && !user && !price) return next();
-//   await Bookings.create({tour, user, price});
-//   // not using next because we do not want to leak the query of the success_url
-//   res.redirect(req.originalUrl.split('?')[0]);
-// });
-
-const createBookingCheckout = async session => {
-  const tour = session.client_reference_id;
-  const user = (await Users.findOne({email: session.customer_email})).id;
-  const price = session.line_items[0].price_data.unit_amount / 100;
-
+exports.createBookingCheckout = catchAsync( async (req, res, next) => {
+   // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
+  const {tour, user, price} = req.query;
+  if(!tour && !user && !price) return next();
   await Bookings.create({tour, user, price});
-}
+  // not using next because we do not want to leak the query of the success_url
+  res.redirect(req.originalUrl.split('?')[0]);
+});
 
-exports.webhookCheckout = (req, res, next) => {
-  const signature = req.headers['Stripe-Signature'];
-  console.log(signature);
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      signature,
-      'whsec_H2qRHveILDFAX7H9qpmV04S5O77kjfbm',
-    );
-  } catch (err) {
-    return res.status(400).send(`Webhook error: ${err}`);
-  }
 
-  if(event.type === 'checkout.session.completed')
-    createBookingCheckout(event.data.object);
-
-  res.status(200).json({received: true});
-};
 
 exports.createBooking = factory.createOne(Bookings);
 exports.getBooking = factory.getOne(Bookings);
