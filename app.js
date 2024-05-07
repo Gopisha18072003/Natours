@@ -29,7 +29,7 @@ const bookingController = require('./controllers/bookingController');
 
 
 const app = express();
-app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
+
 
 app.set('view engine', 'pug');
 app.set('views',path.join(__dirname, 'views'));
@@ -114,6 +114,9 @@ const limitter = rateLimit({
   window: 60 * 60 * 1000,
   message: 'Too many requests this IP, please try again later!',
 });
+
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), bookingController.webhookCheckout);
+
 // this will used for every route which starts /api', limitter);
 
 // body parser, reading data from body into req.body
