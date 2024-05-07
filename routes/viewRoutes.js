@@ -5,10 +5,10 @@ const viewController = require('./../controllers/viewController');
 const authController = require('./../controllers/authController');
 const bookingController = require('./../controllers/bookingController');
 
-router.use(viewController.alert)
+router.use(viewController.alert);
+
 router.get(
   '/',
-  bookingController.webhookCheckout,
   authController.isLoggedIn,
   viewController.getOverview,
 );
@@ -24,5 +24,5 @@ router.post(
   viewController.updateUserData,
 );
 
-router.get('/my-tours',authController.protect, viewController.getMyTours);
+router.get('/my-tours',bookingController.createBookingCheckout,authController.protect, viewController.getMyTours);
 module.exports = router;

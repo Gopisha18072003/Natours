@@ -1,4 +1,4 @@
-const stripe = require('stripe')('sk_test_51PCc9nSBggYrNv4RapRsdXh7AsGTn0ffFh4V8DNe4XhnvTIZZLcyiRkyCNEFSAloYlEg1D1rSdINo6F3OdCl3Jmx00UJ0cuXPp');
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -13,7 +13,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 2) Create checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}`,
+    success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${req.params.tourId}&user=${req.user.id}&price=${tour.price}&alert=booking`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
