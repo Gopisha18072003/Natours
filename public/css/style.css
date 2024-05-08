@@ -1021,7 +1021,9 @@ body {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
-.side-nav--active,
+.side-nav--active {
+  border-left: 4px solid #fff !important;
+}
 .side-nav li:hover {
   border-left: 4px solid #fff !important;
 }

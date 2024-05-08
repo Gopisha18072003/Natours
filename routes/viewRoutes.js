@@ -5,8 +5,6 @@ const viewController = require('./../controllers/viewController');
 const authController = require('./../controllers/authController');
 const bookingController = require('./../controllers/bookingController');
 
-router.use(viewController.alert);
-
 router.get(
   '/',
   authController.isLoggedIn,
@@ -24,5 +22,7 @@ router.post(
   viewController.updateUserData,
 );
 
-router.get('/my-tours',bookingController.createBookingCheckout,authController.protect, viewController.getMyTours);
+router.get('/my-tours',bookingController.createBookingCheckout,viewController.alert, authController.protect, viewController.getMyTours);
+router.get('/my-reviews',authController.protect, viewController.getMyReviews);
+
 module.exports = router;

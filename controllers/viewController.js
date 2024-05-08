@@ -3,12 +3,13 @@ const Users = require('./../models/userModel');
 const Tours = require('./../models/tourModel');
 const Bookings = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
+const axios = require('axios');
 
 exports.alert = (req, res, next) => {
   const { alert } = req.query;
   if (alert === 'booking')
     res.locals.alert =
-      "Your booking was successful! Please check your email for confirmation.If your booking doesn't show up immediately, please come back later.";
+      "Your booking was successful! Please check your email for confirmation.";
   next();
 };
 
@@ -98,3 +99,21 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
     tours,
   });
 });
+
+exports.getMyReviews =async (req, res, next) => {
+  try {
+    const reviews = await axios({
+      method: 'GET',
+      url: `/api/v1/users/${req.user.id}/reviews`
+    });
+  
+  }catch(err) {
+    return next(new AppError('Something went wrong! try again later', 500))
+  }
+  
+  res.status(200).render('myReview', {
+    title: 'My review',
+    reviews
+  });
+
+}

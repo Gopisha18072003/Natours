@@ -89,3 +89,12 @@ if(bookBtn)
 
   const alertMessage = document.querySelector('body').dataset.alert;
   if(alertMessage) showAlert('success', alertMessage, 20)
+
+  
+
+function handleNavClick(element) {
+  document.querySelectorAll('.side-nav li').forEach(item => {
+    item.classList.remove('side-nav--active');
+  });
+  element.parentNode.classList.add('side-nav--active');
+}

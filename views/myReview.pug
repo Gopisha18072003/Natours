@@ -1,0 +1,27 @@
+extends account
+
+mixin reviewItem(to, text, icon, active)
+    li(classname=`${active ? 'side-nav--active': ''}`)
+        a(href=`${link}`, onclick="handleNavClick(this)")
+            svg
+                use(xlink:href=`img/icons.svg#icon-${icon}`)
+            | #{text}
+block myContent
+    main.main 
+        .card-container
+            each review in reviews
+                .card
+                    .card__header
+                        .card__picture
+                            .card__picture-overlay &nbsp;
+                            img.card__picture-img(src=`/img/tours/${review.tour.imageCover}`, alt=`${review.tour.name}`)
+                        h3.heading-tertirary
+                            span= review.tour.name
+                    .card__details
+                        h4.card__sub-heading #{review.review}
+                        
+                    .card__footer
+                        .reviews__rating
+                            each start in [1, 2, 3, 4, 5]
+                                svg.reviews__star(class=`reviews__star--${review.rating >= start ? 'active': 'inactive'}`)
+                                    use(xlink:href='/img/icons.svg#icon-star')

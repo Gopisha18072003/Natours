@@ -14,6 +14,7 @@ const reviewRouter = require('./../routes/reviewRoutes');
 // } = require('./../controllers/tourController');
 
 const router = express.Router();
+
 router.use('/:tourId/reviews', reviewRouter);
 router.use(express.json());
 
