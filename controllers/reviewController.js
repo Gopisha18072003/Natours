@@ -11,5 +11,4 @@ exports.checkBody = (req, res, next) => {
 exports.createReview = factory.createOne(Review);
 
 exports.deleteReview = factory.deleteOne(Review);
-exports.updateReview = factory.deleteOne(Review);
-
+exports.editReview = factory.updateOne(Review);

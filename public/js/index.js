@@ -92,9 +92,13 @@ if(bookBtn)
 
   
 
-function handleNavClick(element) {
-  document.querySelectorAll('.side-nav li').forEach(item => {
-    item.classList.remove('side-nav--active');
-  });
-  element.parentNode.classList.add('side-nav--active');
-}
+    document.querySelectorAll('.side-nav li').forEach(element => {
+      element.addEventListener('click', e => handleNavClick(element));
+    });
+    
+    function handleNavClick(clickedElement) {
+      document.querySelectorAll('.side-nav li').forEach(element => {
+        element.classList.remove('side-nav--active');
+      });
+      clickedElement.classList.add('side-nav--active');
+    }

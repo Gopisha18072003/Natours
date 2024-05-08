@@ -1,9 +1,10 @@
 const AppError = require('./../utils/appError');
 const Users = require('./../models/userModel');
 const Tours = require('./../models/tourModel');
+const Reviews = require('./../models/reviewModel');
+
 const Bookings = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
-const axios = require('axios');
 
 exports.alert = (req, res, next) => {
   const { alert } = req.query;
@@ -100,20 +101,15 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getMyReviews =async (req, res, next) => {
-  try {
-    const doc = await axios({
-      method: 'GET',
-      url: `/api/v1/users/${req.user.id}/reviews`
-    });
-    const reviews = doc.data
-  }catch(err) {
-    return next(new AppError('Something went wrong! try again later', 500))
-  }
-  
-  res.status(200).render('myReview', {
-    title: 'My review',
-    reviews
-  });
+exports.getMyReviews = catchAsync(async (req, res, next) => {
+  const reviews = await Reviews.find({user: req.user.id});
+  res.status(200).render('myReview', {title: 'My reviews', reviews});
 
-}
+})
+
+exports.getEditReviewForm = catchAsync(async(req, res, next) => {
+  const {id} = req.query;
+  const selectedReview = await Reviews.findOne({_id:id})
+  const reviews = await Reviews.find({user: selectedReview.user._id});
+  res.status(200).render('myReview', {reviews, showEditReviewOverlay: true, selectedReview});
+})
