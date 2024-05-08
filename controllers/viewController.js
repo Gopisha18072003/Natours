@@ -102,11 +102,11 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 
 exports.getMyReviews =async (req, res, next) => {
   try {
-    const reviews = await axios({
+    const doc = await axios({
       method: 'GET',
       url: `/api/v1/users/${req.user.id}/reviews`
     });
-  
+    const reviews = doc.data
   }catch(err) {
     return next(new AppError('Something went wrong! try again later', 500))
   }

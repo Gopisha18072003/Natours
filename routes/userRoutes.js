@@ -16,7 +16,8 @@ const { signUp, login } = require('./../controllers/authController');
 
 const router = express.Router();
 // AUTHENTICATION AND AUTHORIZATION ROUTES
-router.use('/:userId/reviews', reviewRouter)
+router.use('/:userId/reviews', reviewRouter);
+router.use(express.json());
 router.route('/sign-up').post(signUp);
 router.route('/login').post(login);
 router.route('/logout').get(authController.logout);
