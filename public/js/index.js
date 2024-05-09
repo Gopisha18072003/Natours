@@ -4,6 +4,7 @@ import { updateSettings } from './updateSettings';
 import { displayMap } from './mapbox';
 import {bookTour} from './stripe'
 import {showAlert} from './alerts'
+import {editReview, createReview, deleteReview} from './review'
 
 // DOM elements
 const mapBox = document.getElementById('map');
@@ -12,6 +13,9 @@ const signinForm = document.getElementById('signup');
 const userUpdateForm = document.querySelector('.form-user-data');
 const passwordUpdateForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
+const reviewEditForm = document.getElementById('edit-review');
+const createReviewForm = document.getElementById('create-review');
+const deleteReviewBtn = document.querySelector('.reviews__delete');
 
 if (mapBox) {
   const locations = JSON.parse(document.getElementById('map').dataset.location);
@@ -102,3 +106,34 @@ if(bookBtn)
       });
       clickedElement.classList.add('side-nav--active');
     }
+
+if(reviewEditForm) {
+    document.getElementById('edit-review').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('save-edit').textContent = 'Saving....'
+      const {userId, reviewId} = e.target.dataset;
+      const review = document.getElementById('saved-review').value;
+      const rating = document.getElementById('saved-rating').value;
+      await editReview(review, rating, reviewId, userId);
+  });
+}
+
+if(createReviewForm) {
+    createReviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('save-review').textContent = 'Saving....'
+      const {userId, tourId} = e.target.dataset;
+      const review = document.getElementById('review').value;
+      const rating = document.getElementById('rating').value;
+      await createReview(review, rating, userId, tourId);
+  });
+}
+
+if(deleteReviewBtn) {
+  deleteReviewBtn.addEventListener('click', async (e) => {
+    const {reviewId} = e.target.dataset;
+    console.log(reviewId)
+    await deleteReview(reviewId);
+  })
+
+}

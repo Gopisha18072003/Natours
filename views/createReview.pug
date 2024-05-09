@@ -1,0 +1,17 @@
+extends base
+
+block overlay 
+    .overlay
+        .overlay__content
+            .header
+                h2 Write Your Review
+                a(href='/my-bookings') X
+            form(id='create-review' data-user-id=`${user._id}` data-tour-id=`${selectedTour._id}` )
+                - console.log(user._id, selectedTour.id)
+                .form__group-edit
+                    label(for="review") Review
+                    input.form__input(type="text" name="review"  id='review' )
+                .form__group-edit
+                    label(for="rating") Rating
+                    input.form__input(type="number" name="rating" min="1" max="5" id='rating')
+                button#save-review.btn.btn--green.btn--small Save

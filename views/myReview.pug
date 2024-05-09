@@ -21,11 +21,14 @@ block content
                         h4.card__sub-heading #{review.review}
                         
                     .card__footer
-                        .reviews__rating
+                        .reviews__rating-second
                             each start in [1, 2, 3, 4, 5]
                                 svg.reviews__star(class=`reviews__star--${review.rating >= start ? 'active': 'inactive'}`)
                                     use(xlink:href='/img/icons.svg#icon-star')
-                        a.btn.btn--green.btn--small(href=`/edit-review?id=${review._id}`) Edit
+                        .buttons
+                            a.btn.btn--green.btn--small(href=`/edit-review?id=${review._id}`) Edit
+                            svg.reviews__delete(data-review-id=review._id)
+                                use(xlink:href='/img/icons.svg#icon-trash')
 
     if showEditReviewOverlay
         include editReview

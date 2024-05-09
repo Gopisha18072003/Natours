@@ -22,9 +22,10 @@ router.post(
   viewController.updateUserData,
 );
 
-router.get('/my-tours',bookingController.createBookingCheckout,viewController.alert, authController.protect, viewController.getMyTours);
+router.get('/my-bookings',bookingController.createBookingCheckout,viewController.alert, authController.protect, viewController.getMyTours);
 router.get('/my-reviews',authController.protect, viewController.getMyReviews);
 
-router.get('/edit-review', authController.protect, viewController.getEditReviewForm)
+router.get('/edit-review', authController.protect, viewController.getEditReviewForm);
+router.get('/tour/review/:slug', authController.protect, authController.isLoggedIn, viewController.getCreateReviewForm);
 
 module.exports = router;

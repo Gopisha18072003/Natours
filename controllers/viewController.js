@@ -5,6 +5,7 @@ const Reviews = require('./../models/reviewModel');
 
 const Bookings = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
+const Tour = require('./../models/tourModel');
 
 exports.alert = (req, res, next) => {
   const { alert } = req.query;
@@ -95,8 +96,8 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   const tourIds = bookings.map((el) => el.tour);
   const tours = await Tours.find({ _id: { $in: tourIds } });
 
-  res.status(200).render('overview', {
-    title: 'My tours',
+  res.status(200).render('myBookings', {
+    title: 'My bookings',
     tours,
   });
 });
@@ -113,3 +114,20 @@ exports.getEditReviewForm = catchAsync(async(req, res, next) => {
   const reviews = await Reviews.find({user: selectedReview.user._id});
   res.status(200).render('myReview', {reviews, showEditReviewOverlay: true, selectedReview});
 })
+
+exports.getCreateReviewForm = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const bookings = await Bookings.find({ user: req.user.id });
+
+  // 2) Find tours with the returned IDs
+  const tourIds = bookings.map((el) => el.tour);
+  const tours = await Tours.find({ _id: { $in: tourIds } });
+  const selectedTour = await Tours.findOne({slug: req.params.slug})
+
+  res.status(200).render('myBookings', {
+    title: 'My bookings',
+    tours,
+    selectedTour,
+    showEditReviewOverlay: true
+  });
+});
