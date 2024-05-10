@@ -3,37 +3,37 @@ extends base
 block content 
     main.main 
         .card-container
-            each tour in tours
+            each booking in bookings
                 .card
                     .card__header
                         .card__picture
                             .card__picture-overlay &nbsp;
-                            img.card__picture-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
+                            img.card__picture-img(src=`/img/tours/${booking.tour.imageCover}`, alt=`${booking.tour.name}`)
                         h3.heading-tertirary
-                            span= tour.name
+                            span= booking.tour.name
                     .card__details
-                        h4.card__sub-heading #{tour.difficulty} #{tour.duration}-days Tour
-                        p.card__text= tour.summary
+                        h4.card__sub-heading #{booking.tour.difficulty} #{booking.tour.duration}-days Tour
+                        p.card__text= booking.tour.summary
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-map-pin")
-                            span= tour.startLocation.description
+                            span= booking.tour.startLocation.description
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-calendar")
-                            span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                            span= booking.startDate.toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'})
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-flag")
-                            span= `${tour.locations.length} stops`
+                            span= `${booking.tour.locations.length} stops`
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-user")
-                            span= `${tour.maxGroupSize} people`
+                            span= `${booking.tour.maxGroupSize} people`
 
                     .card__footer
-                        a.btn.btn--green.btn--small(href=`/tour/review/${tour.slug}`) Write a review
-                        a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+                        a.btn.btn--green.btn--small(href=`/tour/review/${booking.tour.slug}`) Write a review
+                        a.btn.btn--green.btn--small(href=`/tour/${booking.tour.slug}`) Details
 
     if showEditReviewOverlay
         include createReview

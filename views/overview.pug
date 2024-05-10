@@ -4,6 +4,7 @@ block content
     main.main 
         .card-container
             each tour in tours
+                - const booked = tour.bookings == tour.maxGroupSize* tour.startDates.length
                 .card
                     .card__header
                         .card__picture
@@ -21,7 +22,10 @@ block content
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-calendar")
-                            span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                            if(!booked)
+                                span= tour.startDates[Math.floor(tour.bookings/tour.maxGroupSize)].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                            else 
+                                span --
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-flag")
@@ -29,7 +33,10 @@ block content
                         .card__data
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-user")
-                            span= `${tour.maxGroupSize} people`
+                            if(!booked)
+                                span= `${tour.maxGroupSize - (tour.bookings%tour.maxGroupSize)} people`
+                            else 
+                                span --
 
                     .card__footer
                         p
@@ -38,4 +45,7 @@ block content
                         p.card__ratings
                             span.card__footer-value= `${tour.ratingsAverage} `
                             span.card__footer-text= `rating (${tour.ratingsQuantity})`
-                        a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+                        if (tour.bookings == tour.maxGroupSize* tour.startDates.length)
+                            button.btn.btn--red.btn--small(href=`#` disabled) Unavailable
+                        else
+                            a.btn.btn--green.btn--small(href=`/tour/${tour.slug}` ) Details

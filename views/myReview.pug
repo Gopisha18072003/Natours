@@ -29,6 +29,6 @@ block content
                             a.btn.btn--green.btn--small(href=`/edit-review?id=${review._id}`) Edit
                             svg.reviews__delete(data-review-id=review._id)
                                 use(xlink:href='/img/icons.svg#icon-trash')
-
-    if showEditReviewOverlay
-        include editReview
+    
+        if showEditReviewOverlay
+            include editReview

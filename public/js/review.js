@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-export const editReview = async (review, rating, reviewId, userId) => {
+export const saveEditReview = async (review, rating, reviewId, userId) => {
   try {
     const res = await axios({
       method: 'PATCH',
@@ -22,7 +22,7 @@ export const editReview = async (review, rating, reviewId, userId) => {
   }
 };
 
-export const createReview = async (review, rating, userId, tourId) => {
+export const saveCreateReview = async (review, rating, userId, tourId) => {
   try {
     const res = await axios({
       method: 'POST',

@@ -1431,3 +1431,17 @@ body {
   align-items: center;
 
 }
+
+.btn--red {
+  background-color: #ec4f4f;
+  color: #fff;
+}
+
+.btn {
+  width: 40%;
+}
+.btn--small {
+  padding: 1.25rem 1.5rem !important;
+  font-size: smaller !important;
+  text-align: center;
+}
