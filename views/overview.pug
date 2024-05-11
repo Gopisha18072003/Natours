@@ -1,6 +1,12 @@
 extends base
 
 block content 
+    div#dropdown-container
+      select#sort-select.dropdown
+        option(value="") Sort by
+        option(value="/?sort=price") Sort by Price
+        option(value="/?sort=ratingsAverage") Sort by Ratings
+        option(value="/?sort=duration") Sort by Duration
     main.main 
         .card-container
             each tour in tours
@@ -23,7 +29,7 @@ block content
                             svg.card__icon
                                 use(xlink:href="/img/icons.svg#icon-calendar")
                             if(!booked)
-                                span= tour.startDates[Math.floor(tour.bookings/tour.maxGroupSize)].toLocaleString('en-us', {month: 'long', year: 'numeric'})
+                                span= tour.startDate.toLocaleString('en-us', {month: 'long', year: 'numeric'})
                             else 
                                 span --
                         .card__data

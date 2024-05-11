@@ -119,6 +119,9 @@ tourSchema.indexes({price: 1, ratingsAverage: -1});
 tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
 });
+tourSchema.virtual('startDate').get(function () {
+    return new Date(this.startDates[Math.floor(this.bookings/this.maxGroupSize)]);
+});
 
 // Virtual populate
 tourSchema.virtual('reviews', {
@@ -126,6 +129,7 @@ tourSchema.virtual('reviews', {
     foreignField: 'tour',
     localField: '_id'
 });
+
 
 /***********************
  * DOCUMENT MIDDLEWARE *

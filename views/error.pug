@@ -4,6 +4,9 @@ block content
     main.main
     .error
         .error__title
-        h2.heading-secondary.heading-secondary--error Uh oh! Something went wrong!   
+        - if(message)
+            h2.heading-secondary.heading-secondary--error=message 
+        - else
+            h2.heading-secondary.heading-secondary--error Uh oh! Something went wrong!   
         h2.error__emoji 😢 🤯
         .error__msg= msg

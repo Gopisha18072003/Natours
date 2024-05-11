@@ -2,6 +2,7 @@ const AppError = require('./../utils/appError');
 const Users = require('./../models/userModel');
 const Tours = require('./../models/tourModel');
 const Reviews = require('./../models/reviewModel');
+const axios = require('axios');
 
 const Bookings = require('./../models/bookingModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -18,7 +19,12 @@ exports.alert = (req, res, next) => {
 
 exports.getOverview = catchAsync(async (req, res) => {
   // Get tour data from collection
-  const tours = await Tours.find();
+  let tours;
+  if(req.query.sort){
+    tours = await Tours.find().sort(req.query.sort);
+  } else {
+    tours = await Tours.find();
+  }
   // Build Templete
 
   // Render the templete using tour data
@@ -126,3 +132,40 @@ exports.getCreateReviewForm = catchAsync(async (req, res, next) => {
     showEditReviewOverlay: true
   });
 });
+
+exports.manageTours = catchAsync( async (req, res, next) => {
+  const tours = await Tours.find();
+
+  res.status(200).render('manageTours', {
+    title: 'Manage Tours',
+    tours
+  });
+})
+
+exports.manageUsers = catchAsync( async (req, res, next) => {
+  const users = await Users.find({role: {$ne: 'admin'}, isActive: true});
+
+  res.status(200).render('manageUsers', {
+    title: 'Manage Users',
+    users
+  });
+})
+
+exports.manageReviews = catchAsync( async (req, res, next) => {
+  const reviews = await Reviews.find();
+
+  res.status(200).render('manageReviews', {
+    title: 'Manage Reviews',
+    reviews
+  });
+})
+
+exports.manageBookings = catchAsync( async (req, res, next) => {
+  const bookings = await Bookings.find();
+
+  res.status(200).render('manageBookings', {
+    title: 'Manage Bookings',
+    bookings
+  });
+})
+

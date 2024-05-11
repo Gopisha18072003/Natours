@@ -1,0 +1,15 @@
+extends base
+
+block content 
+    .users-card-grid
+        each user in users
+            .user-card
+                img.user-image(src=`/img/users/${user.photo}`, alt=`${user.name}`)
+                .user-data
+                    .user-info
+                        h2.user-name= user.name
+                        p.user-email= user.email
+                        button.delete-user-btn(data-user-id=`${user._id}`) Delete User
+                    - if(user.role != 'user')
+                        .user-role 
+                            h3 #{user.role.toUpperCase()}

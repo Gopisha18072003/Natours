@@ -2,9 +2,10 @@ import { login, logout } from './login';
 import { signup } from './signup';
 import { updateSettings } from './updateSettings';
 import { displayMap } from './mapbox';
-import {bookTour} from './stripe'
-import {showAlert} from './alerts'
-import {saveEditReview, saveCreateReview, deleteReview} from './review'
+import { bookTour } from './stripe';
+import { showAlert } from './alerts';
+import { saveEditReview, saveCreateReview, deleteReview } from './review';
+import axios from 'axios';
 
 // DOM elements
 const mapBox = document.getElementById('map');
@@ -16,18 +17,19 @@ const bookBtn = document.getElementById('book-tour');
 const reviewEditForm = document.getElementById('edit-review');
 const createReviewForm = document.getElementById('create-review');
 const deleteReviewBtn = document.querySelectorAll('.reviews__delete');
+const overviewSort = document.getElementById('sort-select');
+const deleteUser = document.querySelectorAll('.delete-user-btn');
 
 if (mapBox) {
   const locations = JSON.parse(document.getElementById('map').dataset.location);
   displayMap(locations);
 }
 
-  document.addEventListener('click', function(event) {
-    if (event.target && event.target.id === 'logout') {
-      logout();
-    }
-  });
-
+document.addEventListener('click', function (event) {
+  if (event.target && event.target.id === 'logout') {
+    logout();
+  }
+});
 
 if (loginForm) {
   document.getElementById('login').addEventListener('submit', (e) => {
@@ -50,7 +52,7 @@ if (signinForm) {
   });
 }
 
-if(userUpdateForm){
+if (userUpdateForm) {
   userUpdateForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const form = new FormData();
@@ -63,78 +65,105 @@ if(userUpdateForm){
   });
 }
 
-if(passwordUpdateForm){
-  
+if (passwordUpdateForm) {
   passwordUpdateForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.querySelector('.btn--update-password');
-    btn.textContent= '....UPDATING'
+    btn.textContent = '....UPDATING';
     const currentPassword = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('password-confirm').value;
 
-    await updateSettings({currentPassword, password, confirmPassword}, 'password');
+    await updateSettings(
+      { currentPassword, password, confirmPassword },
+      'password',
+    );
 
-    btn.textContent= 'SAVE PASSWORD'
-    document.getElementById('password-current').value = ''
-    document.getElementById('password').value = ''
-    document.getElementById('password-confirm').value = ''
+    btn.textContent = 'SAVE PASSWORD';
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
   });
 }
 
-if(bookBtn)
-  bookBtn.addEventListener('click', async e => {
-  e.target.textContent = 'Processing....'
-  const {tourId} = e.target.dataset;
-  await bookTour(tourId);
-  
+if (bookBtn)
+  bookBtn.addEventListener('click', async (e) => {
+    e.target.textContent = 'Processing....';
+    const { tourId } = e.target.dataset;
+    await bookTour(tourId);
+  });
 
-  })
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) showAlert('success', alertMessage, 20);
 
-  const alertMessage = document.querySelector('body').dataset.alert;
-  if(alertMessage) showAlert('success', alertMessage, 20)
+document.querySelectorAll('.side-nav li').forEach((element) => {
+  element.addEventListener('click', (e) => handleNavClick(element));
+});
 
-  
+function handleNavClick(clickedElement) {
+  document.querySelectorAll('.side-nav li').forEach((element) => {
+    element.classList.remove('side-nav--active');
+  });
+  clickedElement.classList.add('side-nav--active');
+}
 
-    document.querySelectorAll('.side-nav li').forEach(element => {
-      element.addEventListener('click', e => handleNavClick(element));
-    });
-    
-    function handleNavClick(clickedElement) {
-      document.querySelectorAll('.side-nav li').forEach(element => {
-        element.classList.remove('side-nav--active');
-      });
-      clickedElement.classList.add('side-nav--active');
-    }
-
-if(reviewEditForm) {
-    document.getElementById('edit-review').addEventListener('submit', async (e) => {
+if (reviewEditForm) {
+  document
+    .getElementById('edit-review')
+    .addEventListener('submit', async (e) => {
       e.preventDefault();
-      document.getElementById('save-edit').textContent = 'Saving....'
-      const {userId, reviewId} = e.target.dataset;
+      document.getElementById('save-edit').textContent = 'Saving....';
+      const { userId, reviewId } = e.target.dataset;
       const review = document.getElementById('saved-review').value;
       const rating = document.getElementById('saved-rating').value;
       await saveEditReview(review, rating, reviewId, userId);
+    });
+}
+
+if (createReviewForm) {
+  createReviewForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.getElementById('save-review').textContent = 'Saving....';
+    const { userId, tourId } = e.target.dataset;
+    const review = document.getElementById('review').value;
+    const rating = document.getElementById('rating').value;
+    await saveCreateReview(review, rating, userId, tourId);
+    document.getElementById('save-review').textContent = 'Saved';
   });
 }
 
-if(createReviewForm) {
-    createReviewForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      document.getElementById('save-review').textContent = 'Saving....'
-      const {userId, tourId} = e.target.dataset;
-      const review = document.getElementById('review').value;
-      const rating = document.getElementById('rating').value;
-      await saveCreateReview(review, rating, userId, tourId);
-      document.getElementById('save-review').textContent = 'Saved'
+if (deleteReviewBtn) {
+  deleteReviewBtn.forEach((element) =>
+    element.addEventListener('click', async (e) => {
+      const { reviewId } = e.target.dataset;
+      await deleteReview(reviewId);
+    }),
+  );
+}
+
+if (overviewSort) {
+  overviewSort.addEventListener('change', function (event) {
+    const selectedOption = event.target.value;
+    if (selectedOption) {
+      window.location.href = selectedOption;
+    }
   });
 }
 
-if(deleteReviewBtn) {
-  deleteReviewBtn.forEach(element => element.addEventListener('click', async (e) => {
-    const {reviewId} = e.target.dataset;
-    console.log(reviewId)
-    await deleteReview(reviewId);
-  }))
+if (deleteUser) {
+  deleteUser.forEach((element) => 
+    element.addEventListener('click', async (e) => {
+      const { userId } = e.target.dataset;
+      const response = await axios({
+        method: 'DELETE',
+        url: `/api/v1/users/${userId}`,
+      });
 
+      if (response.data.status === 'success') {
+        showAlert('success', 'User deleted successfully!');
+        location.reload(true);
+      } else {
+        showAlert('success', 'Operation failed! please try again later');
+      }
+    }));
 }

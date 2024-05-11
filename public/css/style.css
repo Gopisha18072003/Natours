@@ -1445,3 +1445,111 @@ body {
   font-size: smaller !important;
   text-align: center;
 }
+
+.dropdown {
+  background-color: #fff; /* Background color */
+  border: 1px solid #ccc; /* Border */
+  padding: 8px 16px; /* Padding */
+  font: inherit;
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Cursor style */
+  border-radius: 4px; /* Border radius */
+}
+
+/* Dropdown button hover */
+.dropdown:hover {
+  background-color: #f5f5f5; /* Hover background color */
+}
+
+/* Dropdown button focus */
+.dropdown:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+/* Dropdown options container */
+.dropdown option {
+  padding: 8px 16px; /* Padding */
+  font-size: 16px; /* Font size */
+}
+.dropdown option a{
+  width: 100%;
+  appearance: none;
+}
+
+
+#dropdown-container {
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 70px;
+  padding-right: 60px;
+  font: inherit;
+}
+main.main {
+  padding-top: 10px
+}
+.plans-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.users-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px; /* Adjust the gap between cards */
+  margin: 60px 0px;
+}
+
+.user-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.user-image {
+  width: 100%;
+  height: auto;
+  border-radius: 5px 5px 0 0; /* Rounded corners for top */
+}
+.user-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.user-role h3 {
+  color: #20bf6b;
+  padding: 10px
+}
+.user-info {
+  padding: 10px;
+}
+
+.user-name {
+  margin: 0;
+  font-size: large;
+}
+
+.user-email {
+  margin: 5px 0;
+  font-size: medium;
+}
+
+.delete-user-btn {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: large;
+}
+
+.delete-user-btn:hover {
+  background-color: #cc4c3b;
+}

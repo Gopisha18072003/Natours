@@ -54,8 +54,11 @@ bookingSchema.statics.calcNoBookings = async function (tourId) {
     ]);
 
     if (stats.length > 0) {
+        const tour = await Tours.findById(tourId);
+        const startDate = tour.startDates[Math.floor(tour.bookings/tour.maxGroupSize)]
         await Tours.findByIdAndUpdate(tourId, {
           bookings: stats[0].nbookings,
+          startDate
         });
       } else {
         await Tours.findByIdAndUpdate(tourId, {

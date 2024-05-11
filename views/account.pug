@@ -10,21 +10,22 @@ block content
     main.main
         .user-view
             nav.user-view__menu
-                ul.side-nav
-                    +navItem('#', 'Settings', 'settings', true)
-                    +navItem('/my-bookings', 'My bookings', 'briefcase', false)
-                    +navItem('/my-reviews', 'My reviews', 'star', false)
-                    +navItem('#', 'Billing', 'credit-card', false)
+                - if(user.role !== 'admin')
+                    ul.side-nav
+                        +navItem('#', 'Settings', 'settings', true)
+                        +navItem('/my-bookings', 'My bookings', 'briefcase', false)
+                        +navItem('/my-reviews', 'My reviews', 'star', false)
+                        +navItem('#', 'Billing', 'credit-card', false)
 
                 //- due to res.locals we have access to user
-                - if(user.role === 'admin')
+                - if(user.role === 'admin' || user.role == 'lead-guide')
                     .admin-nav
                         h5.admin-nav__heading Admin
                         ul.side-nav
-                            +navItem('#', 'Manage tours', 'map', false)
-                            +navItem('#', 'Manage users', 'users', false)
-                            +navItem('#', 'Manage reviews', 'star', false)
-                            +navItem('#', 'Manage bookings', 'briefcase', false)
+                            +navItem('/tours', 'Manage tours', 'map', false)
+                            +navItem('/users', 'Manage users', 'users', false)
+                            +navItem('/reviews', 'Manage reviews', 'star', false)
+                            +navItem('/bookings', 'Manage bookings', 'briefcase', false)
 
             .user-view__content
                 .user-view__form-container

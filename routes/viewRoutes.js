@@ -28,4 +28,9 @@ router.get('/my-reviews',authController.protect, viewController.getMyReviews);
 router.get('/edit-review', authController.protect, viewController.getEditReviewForm);
 router.get('/tour/review/:slug', authController.protect, authController.isLoggedIn, viewController.getCreateReviewForm);
 
+router.get('/tours', authController.protect, authController.restrictTo('admin'), viewController.manageTours);
+router.get('/users', authController.protect, authController.restrictTo('admin'), viewController.manageUsers);
+router.get('/reviews', authController.protect, authController.restrictTo('admin'), viewController.manageReviews);
+router.get('/bookings', authController.protect, authController.restrictTo('admin', 'lead-guide'), viewController.manageBookings);
+
 module.exports = router;
