@@ -56,7 +56,7 @@ userSchema.pre('save', async function(next) {
     // here, this refers to the current document
     if(!this.isModified('password')) return next();
 
-    //this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, 12);
 
     // Delete confirm password
     // It is not necessary to persist the data into database

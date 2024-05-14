@@ -2,7 +2,7 @@ extends baseEmail
 block content
     p Hi #{firstName},
     p Your Booking has successfull completed🎉
-    p We are thrilled to confirm your booking for the #{tour.name} with us! Your adventure awaits, and we are excited to be a part of it.
+    p We are thrilled to confirm your booking for the #{data.name} with us! Your adventure awaits, and we are excited to be a part of it.
     table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
         tbody
         tr
@@ -17,10 +17,10 @@ block content
                     tbody
                         // Loop through each item in the invoice here
                         tr
-                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= tour.name
+                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= data.name
                             td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;') 1
-                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= tour.price
-                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= tour.price
+                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= data.price
+                            td(style='border: 1px solid #dddddd; text-align: left; padding: 8px;')= data.price
 
                 p If you need any help with booking your next tour, please don't hesitate to contact me!
                 p - Gopi Kumar Shaw, CEO

@@ -81,7 +81,7 @@ bookingSchema.statics.calcNoBookings = async function (tourId) {
     await this.model.calcNoBookings(doc.tour._id);
   });
   bookingSchema.post('findOneAndUpdate', async function (doc) {
-    const customer = Users.findById(doc.user);
+    const customer = await Users.findById(doc.user);
     const newDate = new Date(doc.startDate).toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'}); 
     await new Email(customer, '/my-bookings').sendUpdate(newDate)
 });

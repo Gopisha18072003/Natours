@@ -4,6 +4,7 @@ const catchAsync = require('./../utils/catchAsync');
 const Bookings = require('./../models/bookingModel');
 const factory = require('../controllers/handlerFactory');
 const Users = require('../models/userModel');
+const Email = require('./../utils/email');
 
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
@@ -48,7 +49,7 @@ exports.createBookingCheckout = catchAsync( async (req, res, next) => {
   const bookedTour = await Tour.findById(tour);
   if(!tour && !user && !price) return next();
   await Bookings.create({tour, user, price, startDate: bookedTour.startDates[Math.floor(bookedTour.bookings/bookedTour.maxGroupSize)]});
-  await new Email(customer, url).sendInvoice();
+  await new Email(customer).sendInvoice(bookedTour);
   // not using next because we do not want to leak the query of the success_url
   res.redirect(`${req.protocol}://${req.get('host')}/my-bookings/?alert=booking`);
 });
