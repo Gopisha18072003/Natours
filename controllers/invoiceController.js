@@ -1,11 +1,10 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const express = require('express');
-const app = require('../app');
+const router = require('../routes/bookingRoutes');
 const nodemailer = require('nodemailer');
 const Email = require('./../utils/email');
 const Users = require('../models/userModel');
 
-app.use(express.json());
 
 // Configure Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -17,7 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getInvoice = (req, res, next) => {
-    app.post('/webhook', async (req, res) => {
+    router.post('/webhook', async (req, res) => {
         const event = req.body;
       
         if (event.type === 'checkout.session.completed') {
