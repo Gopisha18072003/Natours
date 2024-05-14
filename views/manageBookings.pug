@@ -1,0 +1,37 @@
+extends base
+
+block content 
+    main.bookings-main
+        each tour in tours
+            .tour-container-booking
+                .card__header
+                    .card__picture
+                        .card__picture-overlay &nbsp;
+                        img.card__picture-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.tourName}`)
+                    h3.heading-tertirary
+                        span= tour.tourName
+                each bookingByMonth in tour.bookingsByMonth
+                    .booked-container
+                        each bookingDate in bookingByMonth
+                            .date-container
+                                h3 #{new Date(bookingDate.startDate).toLocaleString('en-us', {month: 'long', year: 'numeric'})}
+                                .bookings-card-container
+                                    each booking in bookingDate.bookings
+                                        .booking-card    
+                                            .card__details-booking
+                                                .user-details
+                                                    h3.user-name
+                                                        span= booking.user.name
+
+                                                    h2.user-email
+                                                        span= booking.user.email
+                                                .tour-details 
+                                                    h2.price $ #{booking.price}
+                                                .edit-button
+                                                    a(href=`/bookings/?id=${booking.bookingId}`)
+                                                        svg.edit-booking
+                                                            use(xlink:href='/img/icons.svg#icon-edit')
+                                                    svg.booking__delete__admin(data-booking-id=booking.bookingId)
+                                                        use(xlink:href='/img/icons.svg#icon-trash')
+    if showEditBookingOverlay
+        include editBooking

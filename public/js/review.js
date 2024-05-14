@@ -62,4 +62,21 @@ export const deleteReview = async (reviewId) => {
   }
 };
 
+export const deleteReviewAdmin = async (reviewId) => {
+  try {
+    const res = await axios({
+      method: 'DELETE',
+      url: `/api/v1/reviews/${reviewId}`,
+    });
+    if(res.data.status === 'success') {
+      showAlert('success','Review deleted successfully!');
+      window.setTimeout(()=> {
+        location.assign('/reviews');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error' ,'No review found');
+  }
+};
+
 

@@ -1,0 +1,12 @@
+.overlay
+    .overlay__content
+        .header
+            h2 Edit Booking
+            a(href='/bookings') X
+        form(id='edit-booking' data-booking-id=`${selectedBooking}`)
+            .form__group-edit-date
+                label(for="startDate") Start Date
+                select#startDate(name="startDate")
+                    each date in startDates
+                        option(value=date)= date.toLocaleString('en-us', {day: 'numeric', month: 'short', year: 'numeric' })
+            button#save-edit.btn.btn--green.btn--small Save

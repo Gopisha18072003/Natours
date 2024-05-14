@@ -7,33 +7,36 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Jonas Schmedtmann <${process.env.EMAIL_FROM}>`;
+    this.from = `Gopi Kumar Shaw <${process.env.USER_EMAIL}>`;
   }
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
       return nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'gmail',
+        host: 'smtp.gmail.com',
+        secure: false,
+        port: 587,
         auth: {
-          user: process.env.SENDGRID_USERNAME,
-          pass: process.env.SENDGRID_PASSWORD
+          user: process.env.USER_EMAIL,
+          pass: process.env.USER_PASSWORD
         }
       });
     }
 
     return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
+      host: 'smtp.gmail.com',
+      port: 587,
       auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
+        user:  process.env.USER_EMAIL,
+        pass: process.env.USER_PASSWORD
       }
     });
   }
 
   // Send the actual email
-  async send(template, subject) {
+  async send(template, subject, invoice) {
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
@@ -46,6 +49,12 @@ module.exports = class Email {
       from: this.from,
       to: this.to,
       subject,
+      attachements: [
+        {
+          filename: 'invoice.pdf',
+          content: invoice
+        }
+      ],
       html,
       text: htmlToText(html)
     };
@@ -61,7 +70,7 @@ module.exports = class Email {
   async sendPasswordReset() {
     await this.send(
       'passwordReset',
-      'Please reset your password'
+      'Reset your password'
     );
   }
 };

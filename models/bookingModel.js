@@ -73,5 +73,11 @@ bookingSchema.post('save', function () {
     this.constructor.calcNoBookings(this.tour);
   });
 
+  bookingSchema.post('findOneAndDelete', async function (doc) {
+    // Call calcAverageRatings method
+  
+    await this.model.calcNoBookings(doc.tour._id);
+  });
+
 const Booking = mongoose.model('Booking', bookingSchema);
 module.exports = Booking;

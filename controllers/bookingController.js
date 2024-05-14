@@ -34,6 +34,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     ],
   });
   // 3) Create session as response
+  console.log(session);
   res.status(200).json({
     status: 'successs',
     session,
@@ -50,7 +51,12 @@ exports.createBookingCheckout = catchAsync( async (req, res, next) => {
   res.redirect(`${req.protocol}://${req.get('host')}/my-bookings/?alert=booking`);
 });
 
-
+exports.checkBody = (req, res, next) => {
+  req.body = {
+    startDate: req.body.startDate
+  };
+  next();
+}
 
 exports.createBooking = factory.createOne(Bookings);
 exports.getBooking = factory.getOne(Bookings);

@@ -4,7 +4,9 @@ import { updateSettings } from './updateSettings';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
 import { showAlert } from './alerts';
-import { saveEditReview, saveCreateReview, deleteReview } from './review';
+import { saveEditReview, saveCreateReview, deleteReview, deleteReviewAdmin } from './review';
+import { saveEditBooking, deleteBooking } from './booking';
+import { deleteTour } from './tour';
 import axios from 'axios';
 
 // DOM elements
@@ -19,7 +21,10 @@ const createReviewForm = document.getElementById('create-review');
 const deleteReviewBtn = document.querySelectorAll('.reviews__delete');
 const overviewSort = document.getElementById('sort-select');
 const deleteUser = document.querySelectorAll('.delete-user-btn');
-
+const deleteReviewBtnAdmin = document.querySelectorAll('.reviews__delete__admin');
+const deleteBookingBtn = document.querySelectorAll('.booking__delete__admin');
+const bookingEditForm = document.getElementById('edit-booking')
+const deleteTourBtns = document.querySelectorAll('.tour__delete__admin');
 if (mapBox) {
   const locations = JSON.parse(document.getElementById('map').dataset.location);
   displayMap(locations);
@@ -166,4 +171,46 @@ if (deleteUser) {
         showAlert('success', 'Operation failed! please try again later');
       }
     }));
+}
+
+
+if (deleteReviewBtnAdmin) {
+  deleteReviewBtnAdmin.forEach((element) =>
+    element.addEventListener('click', async (e) => {
+      const { reviewId } = e.target.dataset;
+      await deleteReviewAdmin(reviewId);
+    }),
+  );
+}
+
+if(deleteBookingBtn) {
+  deleteBookingBtn.forEach(element => {
+    element.addEventListener('click' , e => {
+      deleteBooking(e.target.dataset.bookingId)
+    })
+  })
+}
+
+if (bookingEditForm) {
+  document
+    .getElementById('edit-booking')
+    .addEventListener('submit', async (e) => {
+      e.preventDefault();
+      document.getElementById('save-edit').textContent = 'Saving....';
+      const { bookingId } = e.target.dataset;
+      const selectedDate = document.getElementById('startDate').value;
+      if(startDate)
+        await saveEditBooking(bookingId, selectedDate);
+      else
+      window.location.href = '/bookings';
+    });
+}
+
+if(deleteTourBtns) {
+  deleteTourBtns.forEach(btn => {
+    btn.addEventListener('click', async e=> {
+      const {tourId} = e.target.dataset;
+      await deleteTour(tourId);
+    })
+  })
 }
