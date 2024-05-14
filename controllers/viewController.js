@@ -95,6 +95,11 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
 
 exports.getMyTours = catchAsync(async (req, res, next) => {
   const bookings = await Bookings.find({ user: req.user.id });
+  if(!bookings) {
+    res.status(200).render('fallback', {
+      title: 'My bookings',
+    });
+  }
   res.status(200).render('myBookings', {
     title: 'My bookings',
     bookings,
@@ -103,6 +108,11 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 
 exports.getMyReviews = catchAsync(async (req, res, next) => {
   const reviews = await Reviews.find({ user: req.user.id });
+  if(!reviews) {
+    res.status(200).render('fallback', {
+      title: 'My reviews',
+    });
+  }
   res.status(200).render('myReview', { title: 'My reviews', reviews });
 });
 
@@ -136,7 +146,11 @@ exports.getCreateReviewForm = catchAsync(async (req, res, next) => {
 
 exports.manageTours = catchAsync(async (req, res, next) => {
   const tours = await Tours.find();
-
+  if(tours.length === 0) {
+    return res.status(200).render('fallback', {
+      title: 'Manage Tours',
+    });
+  }
   res.status(200).render('manageTours', {
     title: 'Manage Tours',
     tours,
@@ -145,7 +159,11 @@ exports.manageTours = catchAsync(async (req, res, next) => {
 
 exports.manageUsers = catchAsync(async (req, res, next) => {
   const users = await Users.find({ role: { $ne: 'admin' }, isActive: true });
-
+  if(users.length === 0) {
+    return res.status(200).render('fallback', {
+      title: 'Manage Users',
+    });
+  }
   res.status(200).render('manageUsers', {
     title: 'Manage Users',
     users,
@@ -178,6 +196,11 @@ exports.manageReviews = catchAsync(async (req, res, next) => {
       },
     },
   ]);
+  if(tours.length === 0) {
+    return res.status(200).render('fallback', {
+      title: 'Manage reviews',
+    });
+  }
   res.status(200).render('manageReviews', {
     title: 'Manage Reviews',
     tours,
@@ -299,6 +322,12 @@ exports.manageBookings = catchAsync(async (req, res, next) => {
       selectedBooking: req.query.id,
       startDates: tour.startDates,
       showEditBookingOverlay: true,
+    });
+  }
+  if(tours.length === 0) {
+    console.log(tours)
+    return res.status(200).render('fallback', {
+      title: 'Manage Bookings',
     });
   }
   res.status(200).render('manageBookings', {

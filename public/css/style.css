@@ -1760,3 +1760,24 @@ main.main {
   height: 100%;
 
 }
+
+.fallback {
+  width: 100%;
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.fallback img {
+  width: 50%;
+}
+
+.fallback p {
+  line-height: 4rem;
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
