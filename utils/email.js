@@ -7,7 +7,7 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Gopi Kumar Shaw <${process.env.USER_EMAIL}>`;
+    this.from = `Natours <${process.env.USER_EMAIL}>`;
   }
 
   newTransport() {
@@ -36,12 +36,13 @@ module.exports = class Email {
   }
 
   // Send the actual email
-  async send(template, subject, invoice) {
+  async send(template, subject, myTour) {
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
-      subject
+      subject,
+      myTour
     });
 
     // 2) Define email options
@@ -49,12 +50,6 @@ module.exports = class Email {
       from: this.from,
       to: this.to,
       subject,
-      attachements: [
-        {
-          filename: 'invoice.pdf',
-          content: invoice
-        }
-      ],
       html,
       text: htmlToText(html)
     };
@@ -65,6 +60,9 @@ module.exports = class Email {
 
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the Natours Family!');
+  }
+  async sendInvoice(tour) {
+    await this.send('invoice', 'Your Booing has successfull', tour);
   }
 
   async sendPasswordReset() {
