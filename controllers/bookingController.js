@@ -44,9 +44,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 exports.createBookingCheckout = catchAsync( async (req, res, next) => {
    // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
   const {tour, user, price} = req.query;
+  const customer = await Users.findById(user);
   const bookedTour = await Tour.findById(tour);
   if(!tour && !user && !price) return next();
   await Bookings.create({tour, user, price, startDate: bookedTour.startDates[Math.floor(bookedTour.bookings/bookedTour.maxGroupSize)]});
+  await new Email(customer, url).sendInvoice();
   // not using next because we do not want to leak the query of the success_url
   res.redirect(`${req.protocol}://${req.get('host')}/my-bookings/?alert=booking`);
 });

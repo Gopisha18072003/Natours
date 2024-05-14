@@ -1,0 +1,21 @@
+extends baseEmail
+block content
+    p Hi #{firstName},
+    p We hope this email finds you well.
+    p We are writing to inform you about an important update regarding your upcoming tour, "[Tour Name]". Due to unforeseen circumstances, we have had to make adjustments to the tour schedule, including a change in the tour date.
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+        tbody
+        tr
+            td(align='left')
+            table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                tbody
+                tr
+                    td
+                        strong New Tour Date: #{newDate}
+                        p We understand that this change may inconvenience your plans, and we sincerely apologize for any inconvenience caused. Please rest assured that we are doing our utmost to ensure a smooth transition and minimal disruption to your experience. 
+                        p If the new tour date is not suitable for you, please don't hesitate to get in touch with us as soon as possible. We will do our best to accommodate your needs and find a suitable solution. 
+                        p We value your understanding and patience in this matter. Our priority is to provide you with the best possible experience, and we appreciate your cooperation.
+                        p  If you have any questions or concerns regarding the date change or if you need further assistance, please feel free to contact us. We are here to help and support you every step of the way. 
+                        p Thank you for choosing us for your tour experience. We look forward to welcoming you on the new tour date and creating unforgettable memories together.
+            p If you need any help with booking your next tour, please don't hesitate to contact me!
+            p - Gopi Kumar Shaw, CEO

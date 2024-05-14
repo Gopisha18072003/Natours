@@ -36,13 +36,13 @@ module.exports = class Email {
   }
 
   // Send the actual email
-  async send(template, subject, myTour) {
+  async send(template, subject, newDate) {
     // 1) Render HTML based on a pug template
     const html = pug.renderFile(`${__dirname}/../views/email/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
       subject,
-      myTour
+      newDate
     });
 
     // 2) Define email options
@@ -63,6 +63,9 @@ module.exports = class Email {
   }
   async sendInvoice(tour) {
     await this.send('invoice', 'Your Booing has successfull', tour);
+  } 
+  async sendUpdate(startDate) {
+    await this.send('update', 'Important: Change in Tour Date', startDate);
   }
 
   async sendPasswordReset() {

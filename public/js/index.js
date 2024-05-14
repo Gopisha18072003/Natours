@@ -199,7 +199,7 @@ if (bookingEditForm) {
       document.getElementById('save-edit').textContent = 'Saving....';
       const { bookingId } = e.target.dataset;
       const selectedDate = document.getElementById('startDate').value;
-      if(startDate)
+      if(selectedDate)
         await saveEditBooking(bookingId, selectedDate);
       else
       window.location.href = '/bookings';

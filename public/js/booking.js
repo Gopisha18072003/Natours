@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
-
 export const saveEditBooking = async (bookingId, startDate) => {
   try {
     const res = await axios({

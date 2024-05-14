@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Tours = require('./tourModel');
+const Email = require('./../utils/email');
+const Users = require('./userModel');
 
 const bookingSchema = new mongoose.Schema({
     tour: {
@@ -67,10 +69,10 @@ bookingSchema.statics.calcNoBookings = async function (tourId) {
       }
 }
 
-bookingSchema.post('save', function () {
+    bookingSchema.post('save', function () {
     // this points to current booking
-  
     this.constructor.calcNoBookings(this.tour);
+    console.log('running')
   });
 
   bookingSchema.post('findOneAndDelete', async function (doc) {
@@ -78,6 +80,12 @@ bookingSchema.post('save', function () {
   
     await this.model.calcNoBookings(doc.tour._id);
   });
+  bookingSchema.post('findOneAndUpdate', async function (doc) {
+    const customer = Users.findById(doc.user);
+    const newDate = new Date(doc.startDate).toLocaleString('en-us', {day: 'numeric', month: 'long', year: 'numeric'}); 
+    await new Email(customer, '/my-bookings').sendUpdate(newDate)
+});
+
 
 const Booking = mongoose.model('Booking', bookingSchema);
 module.exports = Booking;
