@@ -139,6 +139,7 @@ exports.getCreateReviewForm = catchAsync(async (req, res, next) => {
 
   res.status(200).render('myBookings', {
     title: 'My bookings',
+    bookings,  // Pass bookings to the template
     tours,
     selectedTour,
     showEditReviewOverlay: true,
