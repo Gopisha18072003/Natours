@@ -96,7 +96,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [your-email@example.com](mailto:gopishaw111@gmail.com)
+Your Name - [Send Mail](mailto:gopishaw111@gmail.com)
 
-Project Link: [https://github.com/your-username/your-repo-name](https://github.com/Gopisha18072003/Natours)
+Project Link: [Click here](https://github.com/Gopisha18072003/Natours)
 
