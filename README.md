@@ -76,10 +76,6 @@ Make sure you have the following installed:
 - Explore the tours, book a tour, write reviews, and manage your profile.
 - Admins can access the admin panel to manage bookings.
 
-## Visit the Website
-
-Check out the live version of the website [here](https://natours-web-dd1p.onrender.com).
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
